@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<title>トップ</title>
+<style>
+  body{
+background:rgb(245, 245, 245);
+}
+span{
+    font-weight:bold;
+    color:green;
+}
+</style>
+</head>
+<body>
+  <div style="font-size:12px;">深夜掲示板</div>
+<div style="display:flex; gap:10px;"><a href="https://keitagames.com">深テに戻る</a><a href="/list">板一覧</a><a href="/">リロード</a><input type="text" id="search-top" placeholder="検索語"> </div>
+<h2>深テ掲示板トップ</h2>
+
+<div>現在時刻【{{ now_time }}】現在の累計書き込み数【{{ total_posts }}】</div>
+<a href="/list">板一覧へ</a>
+<div style="display:flex; align-items:center;"><h2 style="font-size:25px; color:red">グローバル板</h2><h4>【一時間以内の書き込みを表示します】</h4></div>
+
+{% if recent_posts %}
+  {% for post in recent_posts %}
+<div>{{ post.post_number }} 名前：<span class="a">{{ post.name }}</span>：{{ post.created_at | fmt_dt }} ID:{{ post.ip_hash }}</div>
+<div style="margin-left:40px; white-space: pre-wrap;">{{ post.message }}</div>
+  {% endfor %}
+{% else %}
+<div style="margin-left:40px; color:gray;">まだ書き込みがありません</div>
+{% endif %}
+
+<div style="font-size:10px; text-align:center;border-bottom:1px solid black">深テ掲示板 by keita</div>
+<div style="display:flex; gap:10px;"><a href="https://keitagames.com">深テに戻る</a><a href="/">最新レス表示</a><a href="/">リロード</a></div>
+<form action="/post_global" method="post" class="f">
+ 
+<button type="submit">書き込む</button>
+  <label>
+    名前：
+    <input type="text" name="name" placeholder="名無しさん">
+  </label>
+
+  <label>
+    メール：
+    <input type="email" name="email">
+  </label>
+<br>
+  <label>
+  
+    <textarea name="message" rows="5" cols="80" required></textarea>
+  </label>
+<br>
+  <small>SHINYA BBS ver.alpha</small>
+</form>
+</body>
+</html>
