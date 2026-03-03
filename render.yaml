@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: oh-my-shinya
+    env: python
+    plan: free   # 有料にするなら「starter」や「standard」
+    buildCommand: |
+      apt-get update && apt-get install -y ffmpeg
+      pip install flask
+    startCommand: python app.py
