@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<title>{{ thread.title }}</title>
+<style>
+  body{
+background:rgb(245, 245, 245);
+}
+
+span{
+  color:green;
+  font-weight:bold;
+}
+</style>
+</head>
+<body>
+<div style="font-size:12px;">深夜掲示板 > {{ board.name }} > {{ thread.title }}</div>
+<div style="display:flex; gap:10px;">
+  <a href="https://keitagames.com">深テに戻る</a>
+  <a href="/board/{{ board.slug }}/thread/{{ thread.id }}">最新レス表示</a>
+  <a href="/board/{{ board.slug }}/thread/{{ thread.id }}">リロード</a>
+  <form method="get" action="/board/{{ board.slug }}/thread/{{ thread.id }}" style="display:inline; margin:0; padding:0;">
+    <input type="text" name="q" placeholder="検索語" value="{{ search_query }}">
+  </form>
+</div>
+<div style="display:flex; align-items:center;">
+  <h1 style="font-size:16px;">【{{ thread.created_at[11:16] }}】</h1>
+  <h2 style="font-size:25px; color:red">{{ thread.title }}</h2>
+</div>
+
+{% for post in posts %}
+<div id="{{ post.post_number }}">{{ post.post_number }} 名前：<span class="a">{{ post.name }}</span>：{{ post.created_at | fmt_dt }} ID:{{ post.ip_hash }}</div>
+<div style="margin-left:40px; white-space: pre-wrap;">{{ post.message | replace_anchors | safe }}</div>
+{% else %}
+<div style="color:gray; margin:10px 0;">レスがありません</div>
+{% endfor %}
+
+<div style="font-size:10px; text-align:center;border-bottom:1px solid black">深テ掲示板 by keita</div>
+<div style="display:flex; gap:10px;"><a href="https://keitagames.com">深テに戻る</a><a href="/board/{{ board.slug }}/thread/{{ thread.id }}">最新レス表示</a><a href="/board/{{ board.slug }}/thread/{{ thread.id }}">リロード</a></div>
+<form action="/board/{{ board.slug }}/thread/{{ thread.id }}/post" method="post" class="f">
+ 
+<button type="submit">書き込む</button>
+  <label>
+    名前：
+    <input type="text" name="name" placeholder="名無しさん">
+  </label>
+
+  <label>
+    メール：
+    <input type="email" name="email">
+  </label>
+<br>
+  <label>
+  
+    <textarea name="message" rows="5" cols="80" required></textarea>
+  </label>
+<br>
+  <small>SHINYA BBS ver.alpha</small>
+</form>
+</body>
+</html>

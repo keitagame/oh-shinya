@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<title>{{ board.name }}</title>
+<style>
+  body{
+background:rgb(245, 245, 245);
+}
+
+</style>
+</head>
+<body>
+  <div style="font-size:12px;">深夜掲示板 > {{ board.name }}</div>
+<div style="display:flex; gap:10px;">
+  <a href="https://keitagames.com">深テに戻る</a>
+  <a href="/board/{{ board.slug }}">最新スレ表示</a>
+  <a href="/board/{{ board.slug }}">リロード</a>
+  <form method="get" action="/board/{{ board.slug }}" style="display:inline; margin:0; padding:0;">
+    <input type="text" name="q" placeholder="検索語" value="{{ search_query }}">
+  </form>
+</div>
+<h3>{{ board.name }}@shinya-bbs</h3>
+<h4>最新スレ<span> {{ now_time }} 時点</span></h4>
+
+{% for thread in threads %}
+<div style="display:flex">
+  <div>【{{ thread.last_post_at[11:16] }}】</div>
+  <a href="/board/{{ board.slug }}/thread/{{ thread.id }}">{{ thread.title }}</a>
+  <div>「スレ主：{{ thread_ops.get(thread.id, '名無しさん') }}」</div>
+  【{{ thread.post_count }}レス】
+  {% if thread.post_count >= 1 and (now_time[:2] + now_time[3:]) | int - (thread.last_post_at[11:13] + thread.last_post_at[14:16]) | int < 5 %}
+  <div style="color:red">NEW</div>
+  {% endif %}
+</div>
+{% else %}
+<div style="color:gray; margin:10px 0;">まだスレッドがありません</div>
+{% endfor %}
+
+<div style="font-size:10px; text-align:center;border-bottom:1px solid black">深テ掲示板 by keita</div>
+<div style="display:flex; gap:10px;"><a href="https://keitagames.com">深テに戻る</a><a href="/board/{{ board.slug }}">最新スレ表示</a><a href="/board/{{ board.slug }}">リロード</a></div>
+<form action="/board/{{ board.slug }}/post_thread" method="post" class="f">
+ 
+<button type="submit">スレ立て</button>
+  <label>
+    名前：
+    <input type="text" name="name" placeholder="名無しさん">
+  </label>
+
+  <label>
+    スレ名：
+    <input type="text" name="threadn" required>
+  </label>
+<br>
+  <label>
+  
+    <textarea name="message" rows="5" cols="80" required></textarea>
+  </label>
+<br>
+  <small>SHINYA BBS ver.alpha</small>
+</form>
+</body>
+</html>

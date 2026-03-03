@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<title>トップ</title>
+<style>
+  body{
+background:rgb(245, 245, 245);
+}
+
+</style>
+</head>
+<body>
+  <div style="font-size:12px;">深夜掲示板</div>
+<div style="display:flex; gap:10px;"><a href="https://keitagames.com">深テに戻る</a><a href="/">最新スレ表示</a><a href="/list">リロード</a><input type="text" placeholder="検索語"> </div>
+<h2>板一覧</h2>
+{% for board in boards %}
+<div><a href="/board/{{ board.slug }}">{{ board.name }}</a><span>【{{ board.thread_count }}スレ】</span></div>
+{% endfor %}
+<div style="font-size:10px; text-align:center;border-bottom:1px solid black">深テ掲示板 by keita</div>
+<div style="display:flex; gap:10px;"><a href="https://keitagames.com">深テに戻る</a><a href="/">最新レス表示</a><a href="/list">リロード</a></div>
+
+<br>
+  <small>SHINYA BBS ver.alpha</small>
+</body>
+</html>
